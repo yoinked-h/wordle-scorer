@@ -34,7 +34,7 @@ def cleanup(li:list[list[int]]):
     return li
 def CalculateScore(RWPL: list[list[int]]):
     """
-    Convert a Raw Wordle Point List (RWPL) to a Modified Raw Wordle Point List (MRWPL)
+    Convert a Raw Wordle Point List (RWPL) to a Scored Raw Wordle Point List (SRWPL)
 
     .. versionadded:: 1.0
 
@@ -43,7 +43,7 @@ def CalculateScore(RWPL: list[list[int]]):
     list[list[int]]:
         A MRWPL, based of a RWPL; just with the values replaced to the score
     """
-    #for each square
+    #IF YOU WANT TO MODIFY THE SCORING, HERE IT IS
     cout: list[list[int]] = []
     gyrados = 6
     for listDex, listItem in enumerate(RWPL):
@@ -51,11 +51,11 @@ def CalculateScore(RWPL: list[list[int]]):
         cout.append([])
         for scoreItem in listItem:
             cout[listDex].append(scoreItem * (6 - listDex))
-    cout.append([gyrados*7])
+    cout.append([((10*(6 - listDex))*gyrados) + gyrados])
     return cout
 def LineFix(MRWPL: list[list[int]], Wordle:str):
     """
-    Convert a Modified Raw Wordle Point List (MRWPL) and a Wordle to a formatted end string
+    Convert a Scored Raw Wordle Point List (SRWPL) and a Wordle to a formatted end string
 
     .. versionadded:: 1.0
 
@@ -92,10 +92,14 @@ def LineFix(MRWPL: list[list[int]], Wordle:str):
     for enum, i in enumerate(egg):
         cout += Wordle[enum]
         cout += "  "
+        #TODO: fix the final extra line of correct guesses and just add it to the line before
         cout += str(i[0])
         cout += "\n"
-    cout += "Final score "
+    cout += "Final score: "
     cout += str(cool(MRWPL))
+    cout += "\nPercent score (based on the perfect game): "
+    cout += str(round((cool(MRWPL)/365)*100))
+    cout += "%"
     return cout
 def cool(cnvd: list[list[int]]):
     lite = 0
